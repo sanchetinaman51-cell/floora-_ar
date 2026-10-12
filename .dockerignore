@@ -1,0 +1,16 @@
+.git
+.github
+.agents
+.codex
+openspec
+node_modules
+**/node_modules
+**/dist
+coverage
+.npm-cache
+.data
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+.env
+.env.*

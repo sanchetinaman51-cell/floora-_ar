@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floora AR - Product MVP</title>
+    <!-- Tailwind CSS for sleek layout styling -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- Three.js for high-fidelity WebGL texture projection graphics mapping -->
+    <script src="https://cloudflare.com"></script>
+</head>
+<body class="bg-slate-900 text-white font-sans min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+    <!-- Top Dashboard Header Bar -->
+    <header class="p-4 bg-slate-800 border-b border-slate-700 flex justify-between items-center shadow-lg">
+        <div>
+            <h1 class="text-2xl font-bold tracking-wider text-emerald-400">FLOORA AR</h1>
+            <p class="text-xs text-slate-400">Incubex '26 • Product Track Presentation</p>
+        </div>
+        <div class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs font-semibold border border-emerald-500/30 animate-pulse">
+            WebGL Spatial Core
+        </div>
+    </header>
+
+    <!-- Main Live Interactive 3D Canvas Viewport Box -->
+    <main id="canvasContainer" class="relative flex-1 bg-black min-h-[380px] w-full flex items-center justify-center">
+        <!-- Floating Context Aware AI Recommendation Assistant Widget -->
+        <div class="absolute top-4 left-4 right-4 bg-slate-900/90 backdrop-blur-md p-3 rounded-xl border border-slate-700 max-w-md mx-auto text-center z-10 shadow-xl">
+            <p id="lblAiRec" class="text-xs font-semibold text-slate-200">🤖 AI Engine: Click any marble stock type down below to test matching room profiles.</p>
+        </div>
+
+        <!-- Floating Price Metric Tag -->
+        <div class="absolute bottom-4 left-4 bg-slate-900/90 backdrop-blur-md p-3 rounded-xl border border-slate-700 z-10 shadow-md">
+            <span class="block text-[9px] uppercase font-bold text-slate-400 tracking-wider">Estimated Outlay</span>
+            <span id="lblFloatingPrice" class="text-xl font-black text-emerald-400">₹42,000</span>
+        </div>
+    </main>
+
+    <!-- Interactive Estimation Control Dashboard Grid Interface Controls -->
+    <section class="bg-slate-800/95 backdrop-blur-md border-t border-slate-700 p-4 grid grid-cols-1 md:grid-cols-3 gap-4 z-20">
+        
+        <!-- Column 1: Material Catalog Selector -->
+        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-inner flex flex-col justify-between">
+            <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">1. Local Showroom Stock</h3>
+            <div class="flex gap-2 pb-1 overflow-x-auto scrollbar-none">
+                <button onclick="updateMaterial('white_marble.jpg', 350, 'statuario')" class="btn-material flex-shrink-0 bg-slate-700 p-2 rounded-lg border-2 border-emerald-500 w-24 text-left transition cursor-pointer">
+                    <span class="block text-xs font-bold text-slate-200 truncate">Statuario</span>
+                    <span class="block text-[9px] text-slate-400">₹350/sq.ft</span>
+                </button>
+                <button onclick="updateMaterial('black_marble.jpg', 480, 'marquina')" class="btn-material flex-shrink-0 bg-slate-700 p-2 rounded-lg border-2 border-transparent w-24 text-left transition cursor-pointer">
+                    <span class="block text-xs font-bold text-slate-200 truncate">Marquina</span>
+                    <span class="block text-[9px] text-slate-400">₹480/sq.ft</span>
+                </button>
+                <button onclick="updateMaterial('gold_marble.jpg', 750, 'calacatta')" class="btn-material flex-shrink-0 bg-slate-700 p-2 rounded-lg border-2 border-transparent w-24 text-left transition cursor-pointer">
+                    <span class="block text-xs font-bold text-slate-200 truncate">Calacatta</span>
+                    <span class="block text-[9px] text-slate-400">₹750/sq.ft</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Column 2: Dimensions & Live 3D Perspective Controls -->
+        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-inner">
+            <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">2. Perspective & Dimensions Tool</h3>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="block text-[9px] text-slate-400">Length (ft)</label>
+                    <input type="number" id="valLength" value="10" oninput="runCalculations()" class="w-full bg-slate-700 border border-slate-600 rounded px-2 py-0.5 text-xs font-bold focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[9px] text-slate-400">Width (ft)</label>
+                    <input type="number" id="valWidth" value="12" oninput="runCalculations()" class="w-full bg-slate-700 border border-slate-600 rounded px-2 py-0.5 text-xs font-bold focus:outline-none">
+                </div>
+            </div>
+            <div>
+                <label class="block text-[9px] text-slate-400 mb-0.5">Tilt Visualizer Camera Angle</label>
+                <input type="range" id="sliderTilt" min="15" max="75" value="45" oninput="adjustMeshPerspective()" class="w-full accent-emerald-400 cursor-pointer">
+            </div>
+        </div>
+
+        <!-- Column 3: Commercial Lead Pipeline Summary -->
+        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-inner flex flex-col justify-between">
+            <div>
+                <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">3. Valuation Breakdown</h3>
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-slate-400">Total Cover Area:</span>
+                    <span id="lblAreaSummary" class="font-bold text-white">120 sq.ft</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400 font-medium">B2B Showroom Quote:</span>
+                    <span id="lblPriceSummary" class="text-emerald-400 font-extrabold">₹42,000</span>
+                </div>
+            </div>
+            <button onclick="alert('B2B Pipeline Active! Quotation data packet successfully routed to partnered Katraj stone yard dealer board.')" class="w-full mt-2 bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition text-slate-900 font-black text-[11px] py-2 px-4 rounded-lg shadow-md uppercase tracking-wider cursor-pointer">
+                Request Vendor Quote
+            </button>
+        </div>
+    </section>
+
+    <!-- Engine Runtime Execution Logic -->
+    <script>
+        let scene, camera, renderer, floorMesh, textureLoader;
+        let selectedRate = 350;
+        const container = document.getElementById('canvasContainer');
+
+        // Initialise Three.js WebGL Display Framework
+        function setupThreeJSEnvironment() {
+            scene = new THREE.Scene();
+            
+            // Perspective camera matrix configuration settings
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            textureLoader = new THREE.TextureLoader();
+            
+            // Generate standard ground mesh architecture
+            const geometry = new THREE.PlaneGeometry(6, 4.5);
+            // Dynamic default white fallback room background texture alignment config mapping profile
+            const defTexture = textureLoader.load('white_marble.jpg', function(tex) {
+                tex.wrapS = THREE.RepeatWrapping;
+                tex.wrapT = THREE.RepeatWrapping;
+                tex.repeat.set(2, 2);
+            });
+
+            const material = new THREE.MeshBasicMaterial({ map: defTexture, side: THREE.DoubleSide });
+            floorMesh = new THREE.Mesh(geometry, material);
+            
+            // Lay plane flat over coordinate map to represent a floor matrix surface layout
+            floorMesh.rotation.x = -Math.PI / 2.5; 
+            scene.add(floorMesh);
+
+            // Positioning lighting and viewport camera depths
+            camera.position.z = 5;
+            camera.position.y = 2.5;
+            camera.lookAt(0, 0, 0);
+
+            window.addEventListener('resize', onWindowResize);
+            renderLoop();
+        }
+
+        // Live Graphic Animation Execution Loop Engine
+        function renderLoop() {
+            requestAnimationFrame(renderLoop);
+            renderer.render(scene, camera);
+        }
+
+        // Handle Active Showroom Product Changes
+        function updateMaterial(imagePath, rate, labelKey) {
+            selectedRate = rate;
+            runCalculations();
+
+            // Load high-res texture and apply wrapping matrices smoothly
+            textureLoader.load(imagePath, function(newTex) {
+                newTex.wrapS = THREE.RepeatWrapping;
+                newTex.wrapT = THREE.RepeatWrapping;
+                newTex.repeat.set(2, 2);
+                floorMesh.material.map = newTex;
+                floorMesh.material.needsUpdate = true;
+            });
+
+            // Adjust interactive AI recommendation prompt tags based on selections
+            const aiLabel = document.getElementById('lblAiRec');
+            if(labelKey === 'marquina') {
+                aiLabel.innerText = "🤖 AI Rec: Dark veins selected! Nero Marquina looks spectacular with warm ceiling spotlight plans.";
+            } else if(labelKey === 'calacatta') {
+                aiLabel.innerText = "🤖 AI Rec: Premium Choice! Calacatta Gold adds high luxury asset valuation parameters to reception areas.";
+aiLabel.innerText = "🤖 AI Rec: Statuario White reflects maximum natural light, visually expanding room square footage.";
+}
+
+// Visual toggle mapping update borders
+const targets = document.querySelectorAll('.btn-material');
+targets.forEach(t => t.classList.remove('border-emerald-500', 'border-transparent'));
+event.currentTarget.classList.add('border-emerald-500');
+}
+// Real-Time Perspective Angle Adjustments
+function adjustMeshPerspective() {
+const angleVal = document.getElementById('sliderTilt').value;
+// Map degrees dynamically back onto radian graphics transformations
+floorMesh.rotation.x = -(angleVal * Math.PI) / 180;
+}
+// Compute Live Structural Financial Numbers
+function runCalculations() {
+const l = parseFloat(document.getElementById('valLength').value) || 0;
+const w = parseFloat(document.getElementById('valWidth').value) || 0;
+const area = l * w;
+const absoluteCost = area * selectedRate;
+document.getElementById('lblAreaSummary').innerText = area.toLocaleString('en-IN') + " sq.ft";
+const printPrice = "₹" + absoluteCost.toLocaleString('en-IN');
+document.getElementById('lblPriceSummary').innerText = printPrice;
+document.getElementById('lblFloatingPrice').innerText = printPrice;
+}
+function onWindowResize() {
+camera.aspect = container.clientWidth / container.clientHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(container.clientWidth, container.clientHeight);
+}
+// Run application setup routines
+window.addEventListener('load', () => {
+setupThreeJSEnvironment();
+runCalculations();
+});

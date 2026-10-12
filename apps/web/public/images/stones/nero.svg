@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="stone" x2="1" y2="1"><stop stop-color="#343432"/><stop offset=".48" stop-color="#191a19"/><stop offset="1" stop-color="#2d2c29"/></linearGradient>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".022 .06" numOctaves="3" seed="32"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .28"/></feComponentTransfer></filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#stone)"/><rect width="1200" height="800" filter="url(#grain)" opacity=".25"/>
+  <g fill="none" stroke="#e6e1d7" stroke-opacity=".82"><path d="M-20 110c210 130 290 88 395 210s145 190 300 125 240-205 550-88" stroke-width="8"/><path d="M-15 130c210 130 290 88 395 210s145 190 300 125 240-205 530-90" stroke-width="2"/><path d="M720-60c40 190-68 265 42 390s190 135 150 260 58 170 192 260" stroke-width="3"/></g>
+</svg>
