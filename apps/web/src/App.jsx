@@ -11,10 +11,12 @@ const categories = ['All stones', 'Indian Marble', 'Imported Marble'];
 function BrandMark() {
   return (
     <a className="brand" href="#top" aria-label="Floora AR home">
-      <span className="brand__mark" aria-hidden="true">
-        <span />
-        <span />
-      </span>
+      <img
+        className="brand__image"
+        src="/floora-ar-logo.png"
+        alt=""
+        aria-hidden="true"
+      />
       <span className="brand__wordmark">
         <strong>FLOORA</strong>
         <small>AR · STONE STUDIO</small>
