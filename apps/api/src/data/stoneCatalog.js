@@ -1,4 +1,4 @@
-const stoneCatalog = [
+﻿const stoneCatalog = [
   {
     id: 'morchana-white',
     name: 'Morchana White',
@@ -21,7 +21,7 @@ const stoneCatalog = [
     category: 'Indian Marble',
     price: { label: '₹70–120 / sq. ft.', source: 'estimate', disclosure: 'Estimated online range', min: 70, max: 120 },
     availability: 'available',
-    image: '/images/stones/white-soft.svg',
+    image: '/images/stones/silver-grey.svg',
   },
   {
     id: 'morwad-white',
@@ -45,7 +45,7 @@ const stoneCatalog = [
     category: 'Indian Marble',
     price: { label: '₹60–200 / sq. ft.', source: 'estimate', disclosure: 'Estimated online range', min: 60, max: 200 },
     availability: 'available',
-    image: '/images/stones/warm-ivory.svg',
+    image: '/images/stones/sandstone-beige.svg',
   },
   {
     id: 'indian-statuario',
@@ -77,8 +77,10 @@ const stoneCatalog = [
     category: 'Imported Marble',
     price: { label: '₹250–800+ / sq. ft.', source: 'estimate', disclosure: 'Estimated online range', min: 250, max: null },
     availability: 'unavailable',
-    image: '/images/stones/nero.svg',
+    image: '/images/stones/charcoal-veins.svg',
   },
 ];
 
 export default stoneCatalog;
+
+

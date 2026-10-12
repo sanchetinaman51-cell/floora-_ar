@@ -1,4 +1,4 @@
-function availabilityLabel(availability) {
+﻿function availabilityLabel(availability) {
   const labels = {
     available: 'Sample available',
     limited: 'Sample limited',
@@ -20,7 +20,7 @@ function StoneCard({ stone, index, onOpenDetails }) {
         <img
           className="stone-card__image"
           src={stone.image}
-          alt={`Illustrative placeholder texture, not a verified photo of ${stone.name}`}
+          alt={`${stone.name} — illustrative marble texture preview`}
           loading="lazy"
           onError={(event) => {
             event.currentTarget.src = '/images/stones/white-soft.svg';
@@ -30,7 +30,7 @@ function StoneCard({ stone, index, onOpenDetails }) {
           <span className="availability__dot" aria-hidden="true" />
           {availabilityLabel(stone.availability)}
         </span>
-        <span className="image-caption">Illustrative placeholder</span>
+        <span className="image-caption">Illustrative texture</span>
       </button>
 
       <div className="stone-card__body">
@@ -50,7 +50,7 @@ function StoneCard({ stone, index, onOpenDetails }) {
         </div>
 
         <button className="text-link" type="button" onClick={() => onOpenDetails(stone)}>
-          Explore stone <span aria-hidden="true">↗</span>
+          Explore stone <span aria-hidden="true">â†—</span>
         </button>
       </div>
     </article>
@@ -58,3 +58,4 @@ function StoneCard({ stone, index, onOpenDetails }) {
 }
 
 export default StoneCard;
+
