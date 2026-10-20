@@ -4,6 +4,7 @@ import StoneDetailsDialog from './components/StoneDetailsDialog.jsx';
 import RoomEstimate from './components/RoomEstimate.jsx';
 import QuoteRequestForm from './components/QuoteRequestForm.jsx';
 import OperatorReview from './components/OperatorReview.jsx';
+import ARPreview from './components/ARPreview.jsx';
 import { filterStones } from './lib/stoneFilters.js';
 
 const categories = ['All stones', 'Indian Marble', 'Imported Marble'];
@@ -40,6 +41,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(categories[0]);
   const [selectedStone, setSelectedStone] = useState(null);
+  const [previewStone, setPreviewStone] = useState(null);
 
   useEffect(() => {
     let active = true;
@@ -207,6 +209,7 @@ function App() {
                   stone={stone}
                   index={index + 1}
                   onOpenDetails={setSelectedStone}
+                  onOpenPreview={setPreviewStone}
                 />
               ))}
             </div>
@@ -263,6 +266,13 @@ function App() {
       </footer>
 
       <StoneDetailsDialog stone={selectedStone} onClose={closeDetails} />
+      {previewStone && (
+        <ARPreview
+          stones={stones}
+          initialStone={previewStone}
+          onClose={() => setPreviewStone(null)}
+        />
+      )}
     </div>
   );
 }

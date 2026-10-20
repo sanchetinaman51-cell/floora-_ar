@@ -88,6 +88,41 @@ describe('stone discovery dashboard', () => {
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
+  it('opens the illustrative room preview from a stone card, switches stones, and closes back to the catalog', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByRole('heading', { name: 'Morchana White' });
+
+    await user.click(screen.getByRole('button', { name: 'Preview Morchana White in room' }));
+
+    const preview = screen.getByRole('dialog', { name: /Picture it in your space/i });
+    expect(preview).not.toBeNull();
+    expect(screen.getByRole('img', { name: 'Illustrative floor preview using Morchana White' })).not.toBeNull();
+    expect(screen.getByText(/not a live camera AR scan/i)).not.toBeNull();
+
+    await user.click(screen.getByRole('button', { name: 'Rajnagar White' }));
+    expect(screen.getByRole('img', { name: 'Illustrative floor preview using Rajnagar White' })).not.toBeNull();
+
+    await user.click(screen.getByRole('button', { name: 'Close room preview' }));
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(screen.getAllByRole('heading', { name: 'Morchana White' }).length).toBeGreaterThan(0);
+  });
+
+  it('keeps stones without image URLs selectable and uses a local placeholder texture', async () => {
+    const user = userEvent.setup();
+    const catalogWithoutImage = stoneCatalog.map((stone) => ({ ...stone }));
+    delete catalogWithoutImage[0].image;
+    fetch.mockResolvedValueOnce({ ok: true, json: async () => catalogWithoutImage });
+    render(<App />);
+    await screen.findByRole('heading', { name: 'Morchana White' });
+
+    await user.click(screen.getByRole('button', { name: 'Preview Morchana White in room' }));
+
+    expect(screen.getByRole('img', { name: 'Illustrative floor preview using Morchana White' }).querySelector('img').getAttribute('src'))
+      .toBe('/images/stones/white-soft.svg');
+    expect(screen.getByRole('button', { name: 'Morchana White' })).not.toBeNull();
+  });
+
   it('estimates room material cost from catalog stones and selected range rates', async () => {
     const user = userEvent.setup();
     render(<App />);

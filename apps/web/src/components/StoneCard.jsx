@@ -8,7 +8,7 @@
   return labels[availability] || 'Sample status';
 }
 
-function StoneCard({ stone, index, onOpenDetails }) {
+function StoneCard({ stone, index, onOpenDetails, onOpenPreview }) {
   return (
     <article className="stone-card">
       <button
@@ -49,9 +49,19 @@ function StoneCard({ stone, index, onOpenDetails }) {
           </span>
         </div>
 
-        <button className="text-link" type="button" onClick={() => onOpenDetails(stone)}>
-          Explore stone <span aria-hidden="true">â†—</span>
-        </button>
+        <div className="stone-card__actions">
+          <button className="text-link" type="button" onClick={() => onOpenDetails(stone)}>
+            Explore stone <span aria-hidden="true">↗</span>
+          </button>
+          <button
+            className="stone-card__preview-link"
+            type="button"
+            onClick={() => onOpenPreview(stone)}
+            aria-label={`Preview ${stone.name} in room`}
+          >
+            Preview in room <span aria-hidden="true">↗</span>
+          </button>
+        </div>
       </div>
     </article>
   );
